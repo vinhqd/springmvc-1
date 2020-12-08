@@ -1,5 +1,6 @@
 package com.example.config;
 
+import com.example.constants.SystemConstant;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor;
@@ -16,8 +17,8 @@ import javax.sql.DataSource;
 import java.util.Properties;
 
 @Configuration
-@EnableTransactionManagement
 @EnableJpaRepositories(basePackages = "com.example.repository")
+@EnableTransactionManagement
 public class JPAConfig {
 
     @Bean
@@ -46,10 +47,10 @@ public class JPAConfig {
     @Bean
     public DataSource dataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
-        dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
-        dataSource.setUrl("jdbc:mysql://localhost:3306/springmvc");
-        dataSource.setUsername("root");
-        dataSource.setPassword("12345678");
+        dataSource.setDriverClassName(SystemConstant.SQL_DRIVER);
+        dataSource.setUrl(SystemConstant.SQL_URL);
+        dataSource.setUsername(SystemConstant.SQL_USERNAME);
+        dataSource.setPassword(SystemConstant.SQL_PASSWORD);
         return dataSource;
     }
 
@@ -57,7 +58,8 @@ public class JPAConfig {
         Properties properties = new Properties();
         properties.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQL5Dialect");
         properties.setProperty("hibernate.show_sql", "true");
-        properties.setProperty("hibernate.hbm2ddl.auto", "create");
+        properties.setProperty("hibernate.hbm2ddl.auto", "none");
+        properties.setProperty("hibernate.enable_lazy_load_no_trans", "true");
         return properties;
     }
 
